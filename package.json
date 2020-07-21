@@ -1,0 +1,26 @@
+{
+  "name": "react_n_node",
+  "version": "1.0.0",
+  "description": "React and NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "server": "nodemon index.js",
+    "heroku-postbuild": "npm run install-client && npm run build"
+  },
+  "author": "Rupam Swargiary",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mailgun-js": "^0.22.0",
+    "mongoose": "^5.9.18",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.4.10",
+    "nodemon": "^2.0.4",
+    "uuid": "^8.1.0"
+  }
+}
