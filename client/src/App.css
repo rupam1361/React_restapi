@@ -466,6 +466,20 @@ input[type="file"] {
   color: rgb(115, 115, 243);
 }
 
+.noProductsTitle {
+  display: block;
+  margin: 100px auto;
+  text-align: center;
+}
+
+.noProductsTitle h3 {
+  font-size: 16px;
+}
+
+.noProductsTitle p {
+  font-size: 14px;
+}
+
 @media only screen and (max-width: 700px) {
   .allTodoContainer,
   .addTodoContainer,
