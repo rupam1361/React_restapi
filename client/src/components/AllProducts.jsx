@@ -133,7 +133,7 @@ const AllProducts = (props) => {
             <CircularProgress size={20} />
             <p>Loading...</p>
           </div>
-        ) : (
+        ) : currentPosts.length > 0 ? (
           currentPosts.map((todo, i) => (
             <div className="li" key={i}>
               <div className="litag">
@@ -161,6 +161,11 @@ const AllProducts = (props) => {
               </Link>
             </div>
           ))
+        ) : (
+          <div className="noProductsTitle">
+            <h3>You have no Products</h3>
+            <p>Click on the '+' button to add one..</p>
+          </div>
         )}
       </div>
       <Pagination
