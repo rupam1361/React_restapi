@@ -4,7 +4,7 @@ Web application with React and Node JS.
 # About the application
 Basically a Web App created with MERN Stack
 
-A CRUD application which uses a REST API on backend and using React JS on the frontend. The application is about how a new product can be "created", "updated" or "deleted". It also has image uploading function. The application also uses JWT (Json Web Tokens) for authentication purpose (Login) and Forgot password system. However, the tokens are stored on the local storage of the browser which I believe is a bit unsafe but its just for learning purpose.
+A CRUD application which uses a REST API on backend and using React JS on the frontend. The application is about how a new product can be "created", "updated" or "deleted". It also has image uploading function. The application also uses JWT (Json Web Tokens) for authentication purpose (Login) and Forgot password system. The concept of refresh-tokens is also available. However, the tokens are stored on the local storage of the browser which I believe is a bit unsafe but its just for learning purpose.
 
 On the frontend, React library is being used with React Material Ui and custom CSS just for a clean look with success and error messages.. The website is responsive too..
 
