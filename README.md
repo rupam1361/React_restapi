@@ -16,5 +16,6 @@ Your application should run on "http://localhost:3000".
 The full running application can be found at https://react-rest-api.herokuapp.com/.
 
 # Note: 
-Please prefix "http://localhost:5000" on variables "url" and "imageUrl" on all components of the client (AddProduct, Allproduct etc..) as both the server and the client are running on different ports..
-The password-reset link can be found on your mail at spam folder..
+Please prefix "http://localhost:5000" on variables "url" and "imageUrl" on all components of the client (i.e AddProduct.jsx, AllProducts.jsx etc..) wherever required as both the server and the client are running on different ports..
+
+And also the password-reset link can be found on your mail at spam folder..
