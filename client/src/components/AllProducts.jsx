@@ -12,6 +12,7 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 
 const url = "/api/v1/users";
+const imageUrl = "/uploads";
 
 const AllProducts = (props) => {
   let [todos, setTodos] = useState([]);
@@ -138,7 +139,7 @@ const AllProducts = (props) => {
             <div className="li" key={i}>
               <div className="litag">
                 <img
-                  src={`uploads/${todo.productImage}`}
+                  src={`${imageUrl}/${todo.productImage}`}
                   alt=""
                   className="productImage"
                 />
