@@ -12,7 +12,7 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 
 const url = "/api/v1/users";
-const imgUrl = "https://rup-bucket.s3.ap-south-1.amazonaws.com";
+const imgUrl = "/uploads";
 
 const AllProducts = (props) => {
   let [todos, setTodos] = useState([]);
