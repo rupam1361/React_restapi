@@ -16,7 +16,7 @@ const imageUrl = "/uploads";
 
 const AllProducts = (props) => {
   let [todos, setTodos] = useState([]);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const token = localStorage.getItem("access-token");
   const decoded = jwt_decode(token);
   const currentUserId = decoded._id;
