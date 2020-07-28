@@ -315,7 +315,7 @@ body {
   width: 110px;
   height: 110px;
   margin-top: 10px;
-  border: 2.5px solid rgb(175, 175, 175);
+  border: 1.5px solid rgb(175, 175, 175);
   border-radius: 100%;
   transition-duration: 0.3s;
   cursor: pointer;

@@ -8,7 +8,7 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const url = "/api/v1/users";
-const imgUrl = "/uploads";
+const imgUrl = "https://rup-bucket.s3.ap-south-1.amazonaws.com";
 
 const SingleProduct = (props) => {
   const history = useHistory();

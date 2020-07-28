@@ -221,10 +221,11 @@ const App = () => {
       </Switch>
       <div className="footer">
         <label htmlFor="">
-          NOTE: The whole code can be found at
-          <a href="https://github.com/rupam13/React_rest_api">
-            https://github.com/rupam13/React_rest_api
-          </a>
+          Visit<span> </span>
+          <a href="https://github.com/rupam1361/React_restapi">
+            https://github.com/rupam1361/React_restapi
+          </a>{" "}
+          <span>for more</span>
         </label>
       </div>
     </div>

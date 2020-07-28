@@ -12,7 +12,7 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 
 const url = "/api/v1/users";
-const imageUrl = "/uploads";
+const imgUrl = "https://rup-bucket.s3.ap-south-1.amazonaws.com";
 
 const AllProducts = (props) => {
   let [todos, setTodos] = useState([]);
@@ -139,7 +139,7 @@ const AllProducts = (props) => {
             <div className="li" key={i}>
               <div className="litag">
                 <img
-                  src={`${imageUrl}/${todo.productImage}`}
+                  src={`${imgUrl}/${todo.productImage}`}
                   alt=""
                   className="productImage"
                 />
