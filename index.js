@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
-const productRoutes = require("./api/routes/productRoutes");
 const userRoutes = require("./api/routes/userRoutes");
 
 const app = express();
@@ -60,7 +59,6 @@ app.use((req, res, next) => {
 
 app.use(express.static("public"));
 
-app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/users", userRoutes);
 
 if (process.env.NODE_ENV === "production") {
