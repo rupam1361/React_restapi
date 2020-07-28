@@ -10,7 +10,7 @@ import EuroIcon from "@material-ui/icons/Euro";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const url = "/api/v1/users";
-const imageUrl = "https://rup-bucket.s3.ap-south-1.amazonaws.com";
+const imageUrl = "/uploads";
 
 const UpdateProduct = (props) => {
   const history = useHistory();
