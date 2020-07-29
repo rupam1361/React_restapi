@@ -17,6 +17,7 @@ const UpdateProduct = (props) => {
 
   let [todo, setTodo] = useState({});
   let [myImage, setMyImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   let [displayImage, setDisplayImage] = useState(null);
   const [errors, setErrors] = useState("");
@@ -50,6 +51,7 @@ const UpdateProduct = (props) => {
         );
         console.log(result.data.data[0]);
         setTodo(result.data.data[0]);
+        setIsLoading(false);
       } else {
         console.log("Token expired..");
         const refreshToken = localStorage.getItem("refresh-token");
@@ -70,6 +72,7 @@ const UpdateProduct = (props) => {
             );
             console.log(result.data.data[0]);
             setTodo(result.data.data[0]);
+            setIsLoading(false);
           });
       }
     };
@@ -105,72 +108,131 @@ const UpdateProduct = (props) => {
       const formData = new FormData();
       if (myImage) {
         formData.append("myImage", myImage, myImage.name);
-      }
-      if (currentTime <= tokenExpiredTime) {
-        console.log("Token running..");
-        const config = {
-          headers: {
-            Authorization: token,
-          },
-        };
+        if (currentTime <= tokenExpiredTime) {
+          console.log("Token running..");
+          const config = {
+            headers: {
+              Authorization: token,
+            },
+          };
 
-        await axios
-          .post(`${url}/uploads`, formData)
-          .then(async () => {
-            await axios
-              .put(
-                `${url}/${currentUserId}/products/${productId}`,
-                {
-                  name: name.current.value,
-                  description: description.current.value,
-                  price: parseFloat(price.current.value),
-                  productImage: myImage != null ? myImage.name : null,
+          await axios
+            .post(`${url}/uploads`, formData)
+            .then(async () => {
+              await axios
+                .put(
+                  `${url}/${currentUserId}/products/${productId}`,
+                  {
+                    name: name.current.value,
+                    description: description.current.value,
+                    price: parseFloat(price.current.value),
+                    productImage: myImage != null ? myImage.name : null,
+                  },
+                  config
+                )
+                .then((data) => {
+                  console.log(data.data);
+                  props.parentCallback(data.data.message, "success");
+                  setIsSaving(false);
+                });
+            })
+            .then(() => history.push("/"));
+        } else {
+          console.log("Token expired..");
+
+          const refreshToken = localStorage.getItem("refresh-token");
+          await axios
+            .post(`${url}/refresh-token`, {
+              refreshToken: refreshToken,
+            })
+            .then(async (data) => {
+              const config = {
+                headers: {
+                  Authorization: data.data.accessToken,
                 },
-                config
-              )
-              .then((data) => {
-                console.log(data.data);
-                props.parentCallback(data.data.message, "success");
-                setIsSaving(false);
-              });
-          })
-          .then(() => history.push("/"));
+              };
+              await axios
+                .post(`${url}/uploads`, formData)
+                .then(async () => {
+                  await axios
+                    .put(
+                      `${url}/${currentUserId}/products/${productId}`,
+                      {
+                        name: name.current.value,
+                        description: description.current.value,
+                        price: parseFloat(price.current.value),
+                        productImage: myImage != null ? myImage.name : null,
+                      },
+                      config
+                    )
+                    .then((data) => {
+                      console.log(data.data);
+                      props.parentCallback(data.data.message, "success");
+                      setIsSaving(false);
+                    });
+                })
+                .then(() => history.push("/"));
+            });
+        }
       } else {
-        console.log("Token expired..");
+        if (currentTime <= tokenExpiredTime) {
+          console.log("Token running..");
+          const config = {
+            headers: {
+              Authorization: token,
+            },
+          };
 
-        const refreshToken = localStorage.getItem("refresh-token");
-        await axios
-          .post(`${url}/refresh-token`, {
-            refreshToken: refreshToken,
-          })
-          .then(async (data) => {
-            const config = {
-              headers: {
-                Authorization: data.data.accessToken,
+          await axios
+            .put(
+              `${url}/${currentUserId}/products/${productId}`,
+              {
+                name: name.current.value,
+                description: description.current.value,
+                price: parseFloat(price.current.value),
+                productImage: myImage != null ? myImage.name : null,
               },
-            };
-            await axios
-              .post(`${url}/uploads`, formData)
-              .then(async () => {
-                await axios
-                  .put(
-                    `${url}/${currentUserId}/products/${productId}`,
-                    {
-                      name: name.current.value,
-                      description: description.current.value,
-                      price: parseFloat(price.current.value),
-                      productImage: myImage != null ? myImage.name : null,
-                    },
-                    config
-                  )
-                  .then((data) => {
-                    console.log(data.data);
-                    props.parentCallback(data.data.message, "success");
-                    setIsSaving(false);
-                  });
-              })
-              .then(() => history.push("/"));
-          });
+              config
+            )
+            .then((data) => {
+              console.log(data.data);
+              props.parentCallback(data.data.message, "success");
+              setIsSaving(false);
+            })
+            .then(() => history.push("/"));
+        } else {
+          console.log("Token expired..");
+
+          const refreshToken = localStorage.getItem("refresh-token");
+          await axios
+            .post(`${url}/refresh-token`, {
+              refreshToken: refreshToken,
+            })
+            .then(async (data) => {
+              const config = {
+                headers: {
+                  Authorization: data.data.accessToken,
+                },
+              };
+              await axios
+                .put(
+                  `${url}/${currentUserId}/products/${productId}`,
+                  {
+                    name: name.current.value,
+                    description: description.current.value,
+                    price: parseFloat(price.current.value),
+                    productImage: myImage != null ? myImage.name : null,
+                  },
+                  config
+                )
+                .then((data) => {
+                  console.log(data.data);
+                  props.parentCallback(data.data.message, "success");
+                  setIsSaving(false);
+                })
+                .then(() => history.push("/"));
+            });
+        }
       }
     }
   };
@@ -187,92 +249,99 @@ const UpdateProduct = (props) => {
         <span></span>
       </div>
       <br />
-      <div className="formWrapper">
-        <label className="label">Title</label>
-        <br />
-        <div className="inputWrapper">
-          <TitleRoundedIcon fontSize="small" className="mailIcon" />
-          <input
-            className="inputText"
-            type="text"
-            placeholder="Product Title"
-            ref={name}
-            defaultValue={todo.name}
-          />
+      {isLoading ? (
+        <div className="loadingTextAllProduct">
+          <CircularProgress size={20} />
+          <p>Loading...</p>
         </div>
-        <br />
-        <label className="label">Description</label>
-        <br />
-
-        <div className="inputWrapper">
-          <DescriptionOutlinedIcon fontSize="small" className="mailIcon" />
-          <input
-            className="inputText"
-            type="text"
-            ref={description}
-            placeholder="Product Description"
-            defaultValue={todo.description}
-          />
-        </div>
-        <br />
-        <label className="label">Price</label>
-        <br />
-        <div className="inputWrapper">
-          <EuroIcon fontSize="small" className="mailIcon" />
-          <input
-            className="inputText"
-            type="number"
-            ref={price}
-            placeholder="Product Price"
-            defaultValue={todo.price}
-          />
-        </div>
-        <br />
-        <div>
-          <label className="label">
-            Change image <span>(Click on the image..)</span>
-          </label>
+      ) : (
+        <div className="formWrapper">
+          <label className="label">Title</label>
           <br />
-          <div className="choooseImageContainer">
-            <label htmlFor="myImage" className="fileInput">
-              <img
-                className="product-image"
-                src={
-                  displayImage
-                    ? displayImage
-                    : `${imageUrl}/${todo.productImage}`
-                }
-                alt=""
-                width="120"
-              />
-            </label>
-
+          <div className="inputWrapper">
+            <TitleRoundedIcon fontSize="small" className="mailIcon" />
             <input
-              type="file"
-              id="myImage"
-              name="myImage"
-              onChange={onImageSelect}
+              className="inputText"
+              type="text"
+              placeholder="Product Title"
+              ref={name}
+              defaultValue={todo.name}
             />
           </div>
-        </div>
-        <br />
-        {errors ? (
-          <Alert severity="error" className="errorMessage">
-            {errors}
-          </Alert>
-        ) : (
-          <></>
-        )}
-        <button className="btn" onClick={updateProduct}>
-          {isSaving ? (
-            <span className="loginLoading">
-              <CircularProgress size={15} /> <span>Saving..</span>
-            </span>
+          <br />
+          <label className="label">Description</label>
+          <br />
+
+          <div className="inputWrapper">
+            <DescriptionOutlinedIcon fontSize="small" className="mailIcon" />
+            <input
+              className="inputText"
+              type="text"
+              ref={description}
+              placeholder="Product Description"
+              defaultValue={todo.description}
+            />
+          </div>
+          <br />
+          <label className="label">Price</label>
+          <br />
+          <div className="inputWrapper">
+            <EuroIcon fontSize="small" className="mailIcon" />
+            <input
+              className="inputText"
+              type="number"
+              ref={price}
+              placeholder="Product Price"
+              defaultValue={todo.price}
+            />
+          </div>
+          <br />
+          <div>
+            <label className="label">
+              Change image <span>(Click on the image..)</span>
+            </label>
+            <br />
+            <div className="choooseImageContainer">
+              <label htmlFor="myImage" className="fileInput">
+                <img
+                  className="product-image"
+                  src={
+                    displayImage
+                      ? displayImage
+                      : `${imageUrl}/${todo.productImage}`
+                  }
+                  alt=""
+                  width="120"
+                />
+              </label>
+
+              <input
+                type="file"
+                id="myImage"
+                name="myImage"
+                onChange={onImageSelect}
+              />
+            </div>
+          </div>
+          <br />
+          {errors ? (
+            <Alert severity="error" className="errorMessage">
+              {errors}
+            </Alert>
           ) : (
-            "Save Changes"
+            <></>
           )}
-        </button>
-      </div>
+          <button className="btn" onClick={updateProduct}>
+            {isSaving ? (
+              <span className="loginLoading">
+                <CircularProgress size={15} /> <span>Saving..</span>
+              </span>
+            ) : (
+              "Save Changes"
+            )}
+          </button>
+        </div>
+      )}
     </div>
   );
 };
